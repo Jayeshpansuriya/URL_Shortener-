@@ -106,20 +106,40 @@
         <ul id="Shortened-urls"></ul>
     </div>
 
-    <script>
-        document.getElementById('shortener-form')
-        .addEventListener('submit', (event)=>{
-            event.preventDefault();
-            const formdata = new FormData(event.target);
-            const url = formdata.get('url');
-            const shortcode = formdata.get('shortcode');
-          
+  <script>
+    document.getElementById('shortener-form')
+    .addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formdata = new FormData(event.target);
+        const url = formdata.get('url');
+        const shortcode = formdata.get('shortcode');
+
+        console.log(url, shortcode);
+
+        try {
+            const response = await fetch("/shorten", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url, shortCode: shortcode }) // NOTE: key name should match backend
+            });
+
+            if (response.ok) {
+                alert("URL shortened successfully!");
+                event.target.reset();
+            } else {
+                const errorMessage = await response.text();
+                alert("Error: " + errorMessage);
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Something went wrong!");
 
 
-            console.log(url,shortcode); 
-
-        })
-    </script>
+            
+        }
+    });
+</script>
 
 </body>
 </html>
