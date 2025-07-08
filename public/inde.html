@@ -1,145 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL Shortener</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>URL Shortener</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f0f4f8;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            height: 100vh;
-        }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+    }
 
-        .container {
-            background: #fff;
-            padding: 30px;
-            margin-top: 50px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 500px;
-        }
+    .container {
+      background: #fff;
+      padding: 30px;
+      margin-top: 50px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+    }
 
-        h1, h2 {
-            text-align: center;
-            color: #333;
-        }
+    h1,
+    h2 {
+      text-align: center;
+      color: #333;
+    }
 
-        form > div {
-            margin-bottom: 20px;
-        }
+    form > div {
+      margin-bottom: 20px;
+    }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
 
-        input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            border: none;
-            color: white;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-        button:hover {
-            background-color: #0056b3;
-        }
+    button:hover {
+      background-color: #0056b3;
+    }
 
-        ul#Shortened-urls {
-            list-style: none;
-            padding: 0;
-        }
+    ul#Shortened-urls {
+      list-style: none;
+      padding: 0;
+    }
 
-        ul#Shortened-urls li {
-            background: #e9ecef;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-            word-break: break-all;
-        }
-    </style>
+    ul#Shortened-urls li {
+      background: #e9ecef;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      word-break: break-word;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h1>URL Shortener</h1>
+    <form id="shortener-form">
+      <div>
+        <label for="url">Enter URL:</label>
+        <input type="url" name="url" id="url" required />
+      </div>
 
-    <div class="container">
-        <h1>URL Shortener</h1>
-        <form id="shortener-form">
-             
-            <div>
-                <label for="url">Enter URL:</label>
-                <input type="url" name="url" id="url" required>
-            </div>
+      <div>
+        <label for="shortcode">Enter Shortener Code:</label>
+        <input type="text" name="shortcode" id="shortcode" required />
+      </div>
 
-            <div>
-                <label for="shortcode">Enter Shortener Code:</label>
-                <input type="text" name="shortcode" id="shortcode" required>
-            </div>
+      <button type="submit">Shorten</button>
+    </form>
 
-            <button type="submit">Shorten</button>
-
-        </form>
-
-        <h2>Shortened URLs</h2>
-        <ul id="Shortened-urls"></ul>
-    </div>
+    <h2>Shortened URLs</h2>
+    <ul id="Shortened-urls"></ul>
+  </div>
 
   <script>
-    document.getElementById('shortener-form')
-    .addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const formdata = new FormData(event.target);
-        const url = formdata.get('url');
-        const shortcode = formdata.get('shortcode');
-
-        console.log(url, shortcode);
-
-        try {
-            const response = await fetch("/shorten", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ url, shortCode: shortcode }) // NOTE: key name should match backend
-            });
-
-            if (response.ok) {
-                alert("URL shortened successfully!");
-                event.target.reset();
-            } else {
-                const errorMessage = await response.text();
-                alert("Error: " + errorMessage);
-            }
-
-        } catch (error) {
-            console.error(error);
-            alert("Something went wrong!");
-
-
-            
+    // Fetch and display all existing short links
+    async function fetchShortenedUrls() {
+      try {
+        const response = await fetch("/links");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
-    });
-</script>
+        const links = await response.json();
+        const list = document.getElementById("Shortened-urls");
+        list.innerHTML = ""; // Clear the list
 
+        for (const [shortCode, url] of Object.entries(links)) {
+          const listItem = document.createElement("li");
+          listItem.innerHTML = `<a href="/${shortCode}" target="_blank">${window.location.origin}/${shortCode}</a>: ${url}`;
+          list.appendChild(listItem);
+        }
+      } catch (error) {
+        console.error("Error fetching shortened URLs:", error);
+      }
+    }
+
+    // Handle form submission to create a new short URL
+    document.getElementById("shortener-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const url = formData.get("url");
+      const shortCode = formData.get("shortcode");
+
+      try {
+        const response = await fetch("/shorten", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ url, shortCode }),
+        });
+
+        if (response.ok) {
+          alert("URL shortened successfully!");
+          event.target.reset();
+          await fetchShortenedUrls(); // refresh list
+        } else {
+          const errorMessage = await response.text();
+          alert("Error: " + errorMessage);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Something went wrong: " + error.message);
+      }
+    });
+
+    // Initial call to fetch and show existing links
+    fetchShortenedUrls();
+  </script>
 </body>
 </html>
