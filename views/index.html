@@ -86,7 +86,8 @@
 <body>
   <div class="container">
     <h1>URL Shortener</h1>
-    <form id="shortener-form">
+   <form id="shortener-form" method="post" action="/shorten">
+
       <div>
         <label for="url">Enter URL:</label>
         <input type="url" name="url" id="url" required />
@@ -101,10 +102,12 @@
     </form>
 
     <h2>Shortened URLs</h2>
-    <ul id="Shortened-urls"></ul>
+    <ul >
+      {{ shortened_urls }}
+    </ul>
   </div>
 
-  <script>
+  <!-- <script>
     // Fetch and display all existing short links
     async function fetchShortenedUrls() {
       try {
@@ -158,6 +161,6 @@
 
     // Initial call to fetch and show existing links
     fetchShortenedUrls();
-  </script>
+  </script> -->
 </body>
 </html>
