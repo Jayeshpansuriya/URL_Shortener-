@@ -4,15 +4,24 @@ import {loadLinks, saveLinks} from "../models/shortener.model.js";
 export const getShortenerPage  = async (req, res) => {
    
       try {
-        const file = await fs.readFile(path.join(__dirname, "../views/index.html"), "utf-8");
-        const links = await loadLinks();
+        // const file = await fs.readFile(path.join(__dirname, "../views/index.html"), "utf-8");
+         const links = await loadLinks();
+         return res.render("index", {links, hosts:req.host});
     
-        const listItems = Object.entries(links)
-          .map(([shortCode, url]) => `<li><a href="${url}" target="_blank">${shortCode}</a></li>`)
-          .join("");
-    
-        const content = file.replace("{{ shortened_urls }}", listItems);
-        res.send(content);
+
+
+      //   const listItems = Object.entries(links)
+      //     .map(([shortCode, url]) => {
+      //       const displayUrl = url.length >= 30 ? `${url.slice(0,30)}...` : url;
+      //       return `<li><a href="${url}" target="_blank">${shortCode}</a> (${displayUrl})</li>`;
+      //     })
+      //     .join("");
+      //   const content = file.replace("{{ shortened_urls }}", listItems);
+      //  return res.send(content);
+
+
+
+
       } catch (error) {
         console.error("Error in GET /:", error);
         res.status(500).send("Server Error");
