@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width= device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Student Report Card</h1>
+    <p>Name: <%= student.name %></p>
+    <p>Age: <%= student.age %></p>
+    <p>Course: <%= student.course %></p>
+    <h2>Subjects</h2>
+    <ul>
+        <% student.subjects.forEach(subject => { %>
+            <li><%= subject %></li>
+        <% }) %>
+    </ul>
+    <h2>Skills</h2>
+    <ul>
+        <% student.skills.forEach(skill => { %>
+            <li><%= skill %></li>
+        <% }) %>
+    </ul>
+</body>
+</html>

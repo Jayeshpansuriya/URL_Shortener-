@@ -7,6 +7,8 @@ const PORT = 3003;
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
+app.set("view engine", "ejs");
+
 // Mount router at /shorten
 app.use("/shorten", router);
 
