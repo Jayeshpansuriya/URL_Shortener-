@@ -28,21 +28,34 @@ A simple Node.js + Express-based application that lets users shorten long URLs w
 > Paste your images inside a folder named `/screenshots` in your repo and update the paths below.
 
 ### 🖼️ Home Page
-![Home](screenshots/homepage.png)
+![Home](D:\node js practise\URL_Shortener-\Screenshot 2025-07-11 122948.png)
 
 ### 🖼️ Shortened URL Preview
-![List](screenshots/shortened-list.png)
+![List](D:\node js practise\URL_Shortener-\Screenshot 2025-07-11 122948.png)
+
+![List](D:\node js practise\URL_Shortener-\shortened links added in mongodb.png)
 
 ---
 
-## 📽️ Demo Video
+## 🚅 MongoDB Integration
 
-> Upload a video to YouTube or Google Drive and paste the link here.
+This project uses MongoDB to store the original and shortened URLs. Make sure you have MongoDB installed and running on your machine.
 
-[![Watch Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID_HERE)
+### Setup Instructions
 
-> Or a direct link:
-> 👉 [Watch full demo video](https://www.youtube.com/watch?v=YOUR_VIDEO_ID_HERE)
+1. **Install MongoDB**: Follow the [official installation guide](https://docs.mongodb.com/manual/installation/) for your operating system.
+
+2. **Start MongoDB**: Run the following command in your terminal:
+
+   ```bash
+   mongod
+   ```
+
+3. **Connect to MongoDB**: You can use the MongoDB shell or a GUI tool like [MongoDB Compass](https://www.mongodb.com/try/download/compass) to connect to your database.
+
+4. **Create a Database**: Create a new database for your URL shortener app (e.g., `url_shortener`).
+
+5. **Create a Collection**: Inside your database, create a collection to store the links (e.g., `links`).
 
 ---
 
