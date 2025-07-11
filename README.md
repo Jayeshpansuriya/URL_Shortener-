@@ -23,21 +23,6 @@ A simple Node.js + Express-based application that lets users shorten long URLs w
 
 ---
 
-## 📸 Screenshots
-
-> Paste your images inside a folder named `/screenshots` in your repo and update the paths below.
-
-### 🖼️ Home Page
-![Home](file:///d%3A/node%20js%20practise/URL_Shortener-/Screenshot%202025-07-11%20122948.png)
-
-
-### 🖼️ Shortened URL Preview
-![List](D:\node js practise\URL_Shortener-\Screenshot 2025-07-11 122948.png)
-
-![List](D:\node js practise\URL_Shortener-\shortened links added in mongodb.png)
-
----
-
 ## 🚅 MongoDB Integration
 
 This project uses MongoDB to store the original and shortened URLs. Make sure you have MongoDB installed and running on your machine.
