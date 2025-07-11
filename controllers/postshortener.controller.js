@@ -1,12 +1,15 @@
 import crypto from "crypto"; 
-import {loadLinks, saveLinks} from "../models/shortener.model.js";
+import {loadLinks, saveLinks, getLinkByShortCode} from "../models/shortener.model.js";
 
 export const getShortenerPage  = async (req, res) => {
    
       try {
         // const file = await fs.readFile(path.join(__dirname, "../views/index.html"), "utf-8");
          const links = await loadLinks();
-         return res.render("index", {links, hosts:req.host});
+          res.render("index", {
+      links,
+      host: `${req.protocol}://${req.get("host")}`, // ✅ dynamically set host
+    });
     
 
 
@@ -29,38 +32,34 @@ export const getShortenerPage  = async (req, res) => {
     };
 
 
-export const postURLShortener=  async (req, res) => {
+export const postURLShortener = async (req, res) => {
   try {
-    const { url, shortcode } = req.body;
-    if (!url) return res.status(400).send("URL is required");
+    const { url, shortCode } = req.body;
 
-    const links = await loadLinks();
-    const finalShortCode = shortcode || crypto.randomBytes(4).toString("hex");
+    console.log("Received from form:", url, shortCode); // ✅ DEBUG
 
-    if (links[finalShortCode]) {
-      return res.status(400).send("Short code already exists.");
+    if (!url || !shortCode) {
+      return res.status(400).send("Missing url or shortCode");
     }
 
-    links[finalShortCode] = url;
-    await saveLinks(links);
+    await saveLinks({ url, shortCode });
 
-    res.redirect("/shorten"); // 👈 redirect back to form
-  } catch (error) {
-    console.error("Error in POST /:", error);
-    res.status(500).send("Server Error");
+    res.redirect("/shorten");
+  } catch (err) {
+    console.error("Error in postURLShortener:", err);
+    res.status(500).send("Internal Server Error");
   }
-
 };
 
 export const redirectToShortLink = async (req,res) =>{
   try {
     const { shortCode } = req.params;
-    const links = await loadLinks();
-    if (!links[shortCode]) {
+    const link = await getLinkByShortCode(shortCode);
+    if (!link) {
       return res.status(404).send("Short URL not found");
     }
 
-    res.redirect(links[shortCode]);
+   return res.redirect(link.url);
   } catch (error) {
     console.error("Error in GET /:shortCode:", error);
     res.status(500).send("Server Error");

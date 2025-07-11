@@ -11,6 +11,16 @@ const __dirname = path.dirname(__filename);
 const router = express.Router();
 const DATA_FILE = path.join("data", "links.json");
 
+// app.post("/shorten", async (req, res) => {
+//   console.log("Form Data:", req.body); // ✅ Check what is coming
+
+//   const { url, shortCode } = req.body;
+//   await saveLinks({ url, shortCode });
+
+//   console.log("Inserted into DB"); // ✅ Confirm insertion
+//   res.redirect("/");
+// });
+
 
 
 

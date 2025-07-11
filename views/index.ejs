@@ -94,8 +94,8 @@
       </div>
 
       <div>
-        <label for="shortcode">Enter Shortener Code:</label>
-        <input type="text" name="shortcode" id="shortcode" required />
+        <label for="shortCode">Enter Shortener Code:</label>
+        <input type="text" name="shortCode" id="shortCode" required />
       </div>
 
       <button type="submit">Shorten</button>
@@ -105,16 +105,18 @@
     <ul id="Shortened-urls">
   <!-- {{ shortened_urls }} -->
 
-  <% Object.entries(links).map(([shortCode,url])=>{ %>
-  <% const truncateUrl = url.length >= 30 ? `${url.slice(0,30)}...` : url; %>
-    <li><a href="<%= url %>" target="_blank"><%= shortCode %></a> (<%= url.length >= 30 ? `${url.slice(0,30)}...` : url %>)</li>
+<% if (links && links.length) { %>
+  <% links.forEach(({shortCode, url}) => { %>
+    <% const truncateUrl = url.length >= 30 ? `${url.slice(0,30)}...` : url; %>
+    <li>
+      <a href="/<%= shortCode %>" target="_blank">
+        <%= host %>/<%= shortCode %>
+      </a> - <%= truncateUrl %>
+    </li>
   <% }) %>
-<li>
-  <a href="/<%= shortCode %>" target="_blank">
-    <%= host %>/<%= shortCode %>
-  </a> - <%= truncateUrl %>
-</li>
-<% }) %>
+<% } else { %>
+  <li>No shortened URLs yet.</li>
+<% } %>
 
 </ul>
   </div>
